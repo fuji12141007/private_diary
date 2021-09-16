@@ -13,16 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from diary import views
 from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from django.urls import path,include
 
-from . import settings_common, settings_dev
-
+app_name = 'diary'
 urlpatterns = [
-    path('admin/',admin.site.urls),
-    path("",include('diary.urls')),
-    path('accounts/',include('allauth.urls')),
+    path('', views.IndexView.as_view(), name="index"),
+    path('inquiry/', views.InquiryView.as_view(), name="inquiry"),
+    path('diary_list/', views.DiaryListView.as_view(), name="diary_list"),
+    path('diary-detail/<int:pk>/',views.DiaryDetailView.as_view(),name="diary_detail"),
+    path('diary-create/', views.DiaryCreateView.as_view(), name="diary_create"),
+    path('diary-update/<int:pk>/',views.DiaryUpdateView.as_view(),name='diary_update'),
+    path('diary-delete/<int:pk>/',views.DiaryDeleteView.as_view(), name='diary_delete'),
 ]
-
-urlpatterns += static(settings_common.MEDIA_URL,document_root=settings_dev.MEDIA_ROOT)
