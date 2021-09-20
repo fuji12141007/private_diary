@@ -34,10 +34,10 @@ class DiaryListView(LoginRequiredMixin,generic.ListView):
         diaries = Diary.objects.filter(user=self.request.user).order_by('-created_at')
         return diaries
 
-class DiaryDetailView(LoginRequiredMixin,generic.DateDetailView):
+class DiaryDetailView(LoginRequiredMixin,generic.DetailView):
     model = Diary
     template_name = 'diary_detail.html'
-    pk_url_kwarg = 'id'
+    #pk_url_kwarg = 'id'
 
 class DiaryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Diary
@@ -67,7 +67,7 @@ class DiaryUpdateView(LoginRequiredMixin,generic.UpdateView):
           messages.success(self.request,'日記を更新しました。')
           return super().form_valid(form)
 
-      def form_valid(self,form):
+      def form_invalid(self,form):
           messages.error(self.request,'日記を更新に失敗しました。')
           return super().form_invalid(form)
 
